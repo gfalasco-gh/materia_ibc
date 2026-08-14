@@ -1,5 +1,6 @@
 """
 Práctica 1.1: Argumentos causales alternativos e incertidumbre.
+Gfalasco
 ============================================
 """
 
@@ -198,7 +199,10 @@ def pM_Datos(m: int, datos: List[Tuple[int, int, int]]) -> float:
 
     Bayes, creencia del modelo después de ver los datos
     """
-    return pDatos_M(datos, m) * pM(m) / pDatos(datos)
+    if len(datos)==0:
+        return pM(m)
+    else:
+        return pDatos_M(datos, m) * pM(m) / pDatos(datos)
 
 
 def evolucion_posterior(m: int, datos: List[Tuple[int, int, int]]) -> List[float]:
@@ -227,13 +231,13 @@ def log_pDatos_M(datos: List[Tuple[int, int, int]], m: int) -> float:
     log(P(Datos | M))
     Logaritmo de la probabilidad de ver los datos dados el modelo considerado.
     """
-    log_probabilidad = 0
+    #log_probabilidad = 0
 
-    for c, s, r in datos:
-        log_probabilidad = log_probabilidad + np.log10(p_rcs_M(r, c, s, m))
-
-    return log_probabilidad
-
+    #for c, s, r in datos:
+    #    log_probabilidad = log_probabilidad + np.log10(p_rcs_M(r, c, s, m))
+#
+ #   return log_probabilidad
+    return np.log10(pDatos_M(datos,m))
 
 def log_bayes_factor(datos: List[Tuple[int, int, int]], m_i: int, m_j: int) -> float:
     """
@@ -255,7 +259,7 @@ def prediccion_tipica(datos: List[Tuple[int, int, int]], m: int) -> float:
     m ∈ {0, 1}
     """
     N = len(datos)
-    return 10 ** (log_pDatos_M(datos, m) / N)
+    return (log_pDatos_M(datos, m) / N)
 
 
 
